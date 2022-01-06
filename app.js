@@ -1,13 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { createUser, getUser } = require("./controller/userController");
+const {
+  createUser,
+  getUser,
+  getAllUsers,
+  getUserbyName,
+  deleteUser,
+  deleteMany,
+  editUser,
+} = require("./controller/userController");
 require("dotenv").config();
 const app = express();
-var cors = require("cors");
+// var cors = require("cors");
 
 const port = 3001;
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -16,7 +24,17 @@ app.get("/", (req, res) => {
 
 app.get("/users/:email", getUser);
 
+app.get("/user/:name", getUserbyName);
+
+app.get("/usersCount", getAllUsers);
+
 app.post("/register", createUser);
+
+app.delete("/delete", deleteUser);
+
+app.delete("/deleteMany", deleteMany);
+
+app.patch("/patch/:qemail", editUser);
 
 // connect to db
 mongoose.connect(process.env.MONGO);
